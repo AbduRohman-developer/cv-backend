@@ -18,7 +18,7 @@ build:
 	CGO_ENABLED=0 GOOS=linux go build -mod=vendor -a -installsuffix cgo -o ${CURRENT_DIR}/bin/${APP} ${APP_CMD_DIR}/main.go
 
 run:
-	go run cmd/main.go
+	sudo go run cmd/main.go
 
 clear:
 	rm -rf ${CURRENT_DIR}/bin/*
@@ -40,4 +40,6 @@ race: set-env ## Run data race detector
 
 delete-branches:
 	${CURRENT_DIR}/scripts/delete-branches.sh
+vendor:
+	go mod vendor -v
 
