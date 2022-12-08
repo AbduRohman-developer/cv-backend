@@ -12,17 +12,12 @@ import (
 	"log"
 )
 
-func New() *sqlx.DB {
+func NewDB() *sqlx.DB {
 	cfg := config.Get()
+	url := NewURL(cfg, "postgres")
 
 	// Connection for connection database with sqlx
-	db, err := sqlx.Connect(
-		"postges",
-		fmt.Sprintf(
-			"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-			cfg.PostgresHost, cfg.PostgresPort, cfg.PostgresUser, cfg.PostgresPassword, cfg.PostgresDB,
-		),
-	)
+	db, err := sqlx.Connect("postgres", url)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -35,12 +30,9 @@ func New() *sqlx.DB {
 }
 
 func migration(cfg *config.Config, mType string) error {
+	url := NewURL(cfg, "migration")
 	// Generate migration for migrate action
-	m, err := migrate.New("file://migrations", fmt.Sprintf(
-		"connection://%s:%s@%s:%d/%s?sslmode=disable",
-		cfg.PostgresUser, cfg.PostgresPassword, cfg.PostgresHost, cfg.PostgresPort, cfg.PostgresDB,
-	),
-	)
+	m, err := migrate.New("file://migrations", url)
 	if err != nil {
 		return err
 	}

@@ -19,7 +19,7 @@ func Authorize(c *gin.Context) {
 	)
 	tokenString, exists := c.Get("Authorization")
 	if exists {
-		claims, err = ExtractWithClaims(tokenString.(string), []byte(cfg.JWTSigningKey))
+		claims, err = ExtractWithClaims(tokenString.(string), []byte(cfg.AccessSigningKey))
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusBadRequest, map[string]string{
 				"error": err.Error(),

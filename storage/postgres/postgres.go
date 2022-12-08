@@ -1,4 +1,4 @@
-package storage
+package postgres
 
 import (
 	"github.com/AbduRohman-developer/cv-backend/pkg/connection"
@@ -11,6 +11,6 @@ type postgres struct {
 
 func NewPostgres() *postgres {
 	return &postgres{
-		DB: connection.New(),
+		DB: connection.NewDB(),
 	}
 }

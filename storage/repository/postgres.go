@@ -1,3 +1,3 @@
-package storage
+package repository
 
 type Repository interface{}

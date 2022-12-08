@@ -1,21 +1,30 @@
 package config
 
 import (
+	_ "github.com/joho/godotenv/autoload"
 	"github.com/spf13/cast"
 	"os"
 )
 
 type Config struct {
-	Host                  string
-	Port                  int
-	PostgresHost          string
-	PostgresPort          int
-	PostgresUser          string
-	PostgresDB            string
-	PostgresPassword      string
-	JWTSigningKey         string
+	Host             string
+	Port             int
+	PostgresHost     string
+	PostgresPort     int
+	PostgresUser     string
+	PostgresDB       string
+	PostgresPassword string
+
+	AccessSigningKey  string
+	RefreshSigningKey string
+
 	CasbinModelConfigPath string
 	CasbinModelPath       string
+
+	Environment string
+
+	AccessKeyExpireDays  int
+	RefreshKeyExpireDays int
 }
 
 // Get gives instance of Config struct with configuration values
@@ -28,9 +37,13 @@ func Get() *Config {
 		PostgresUser:          cast.ToString(getOrReturnDefault("POSTGRES_USER", "akbarshoh")),
 		PostgresDB:            cast.ToString(getOrReturnDefault("POSTGRES_DB", "cv_info")),
 		PostgresPassword:      cast.ToString(getOrReturnDefault("POSTGRES_PASSWORD", "")),
-		JWTSigningKey:         cast.ToString(getOrReturnDefault("JWT_SIGNING_KEY", "")),
+		AccessSigningKey:      cast.ToString(getOrReturnDefault("ACCESS_SIGNING_KEY", "")),
 		CasbinModelConfigPath: cast.ToString(getOrReturnDefault("CASBIN_MODEL_PATH", "./config/rbac_model.conf")),
 		CasbinModelPath:       cast.ToString(getOrReturnDefault("CASBIN_POLICY_PATH", "./config/models.csv")),
+		Environment:           cast.ToString(getOrReturnDefault("ENVIRONMENT", "develop")),
+		AccessKeyExpireDays:   cast.ToInt(getOrReturnDefault("ACCESS_KEY_EXPIRE_DAYS", 7)),
+		RefreshKeyExpireDays:  cast.ToInt(getOrReturnDefault("REFRESH_EXPIRE_DAYS", 3)),
+		RefreshSigningKey:     cast.ToString(getOrReturnDefault("REFRESH_SIGNING_KEY", "")),
 	}
 }
 
