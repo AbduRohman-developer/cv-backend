@@ -24,7 +24,7 @@ clear:
 	rm -rf ${CURRENT_DIR}/bin/*
 
 run-dev: set-env
-	go run cmd/main.go
+	sudo go run cmd/main.go
 
 dep:
 	go get -v -d ./...

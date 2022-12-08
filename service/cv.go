@@ -1,12 +1,14 @@
 package service
 
-import "github.com/AbduRohman-developer/cv-backend/storage"
+import (
+	"github.com/AbduRohman-developer/cv-backend/storage/repository"
+)
 
 type service struct {
-	repo storage.Repository
+	repo repository.Repository
 }
 
-func New(r storage.Repository) *service {
+func New(r repository.Repository) *service {
 	return &service{
 		repo: r,
 	}
